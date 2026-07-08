@@ -2,18 +2,24 @@
 <html>
 <head>
 <title>GrowthMachineAI</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body {
   font-family: Arial, sans-serif;
-  padding: 20px;
-  background:#f5f5f5;
-}
-.card {
-  background:white;
+  background:#f4f4f4;
   padding:20px;
+}
+
+.card {
+  max-width:600px;
+  margin:auto;
+  background:white;
+  padding:25px;
   border-radius:15px;
 }
+
 input, button {
   width:100%;
   padding:15px;
@@ -21,18 +27,29 @@ input, button {
   border-radius:10px;
   font-size:16px;
 }
+
 button {
   background:#1877f2;
   color:white;
   border:none;
 }
+
+button:active {
+  transform:scale(.98);
+}
+
 .result {
   margin-top:20px;
-  background:#eee;
   padding:15px;
+  background:#eee;
   border-radius:10px;
 }
+
+h1 {
+  text-align:center;
+}
 </style>
+
 </head>
 
 <body>
@@ -45,7 +62,10 @@ button {
 AI-powered Facebook growth assistant
 </p>
 
-<input id="topic" placeholder="Enter your topic">
+<input 
+id="topic"
+placeholder="Enter your topic"
+/>
 
 <button onclick="generate()">
 Generate Viral Content
@@ -58,37 +78,72 @@ Generate Viral Content
 
 <script>
 
-function generate(){
+async function generate(){
 
-let topic=document.getElementById("topic").value;
+const topic=document.getElementById("topic").value;
+
+if(!topic){
+alert("Enter a topic");
+return;
+}
+
+
+document.getElementById("result").innerHTML=
+"🤖 Creating content...";
+
+
+try {
+
+const response = await fetch("/api/generate", {
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+topic:topic
+})
+
+});
+
+
+const data = await response.json();
+
 
 document.getElementById("result").innerHTML=`
 
 <h3>🔥 Viral Ideas</h3>
 
-<p>• 5 things nobody knows about ${topic}</p>
-<p>• The ultimate ${topic} guide</p>
-<p>• Why everyone is talking about ${topic}</p>
-
-
-<h3>✍️ Captions</h3>
-
 <p>
-You won't believe what we discovered about ${topic}!
+${data.ideas.join("<br><br>")}
 </p>
 
+
+<h3>✍️ Caption</h3>
+
 <p>
-Most people get ${topic} wrong...
+${data.caption}
 </p>
 
 
 <h3>#️⃣ Hashtags</h3>
 
 <p>
-#AI #Growth #Marketing #Viral #Creator
+${data.hashtags}
 </p>
 
 `;
+
+}
+
+catch(error){
+
+document.getElementById("result").innerHTML=
+"❌ Error connecting to AI engine";
+
+}
 
 }
 

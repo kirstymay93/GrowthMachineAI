@@ -1,0 +1,17 @@
+{
+  "name": "GrowthMachineAI",
+  "short_name": "GrowthAI",
+  "description": "AI powered social media growth assistant",
+  "start_url": "/app.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1877f2",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/4712/4712109.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

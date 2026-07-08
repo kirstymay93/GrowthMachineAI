@@ -1,58 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>GrowthMachineAI</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
-body {
-font-family:Arial,sans-serif;
-background:#f2f2f2;
+body{
+font-family:Arial;
+background:#f4f6f8;
 padding:20px;
 }
 
-.container {
-max-width:700px;
-margin:auto;
+.box{
 background:white;
-padding:25px;
+padding:20px;
 border-radius:20px;
+max-width:600px;
+margin:auto;
 }
 
-h1 {
-text-align:center;
-}
-
-input,button {
+button{
 width:100%;
 padding:15px;
 margin-top:10px;
-border-radius:12px;
-font-size:16px;
-}
-
-button {
 background:#1877f2;
 color:white;
 border:0;
+border-radius:10px;
+font-size:16px;
 }
 
-.section {
-background:#eeeeee;
+textarea{
+width:100%;
+height:120px;
+margin-top:10px;
+padding:10px;
+}
+
+#result{
+margin-top:20px;
+background:#eee;
 padding:15px;
-margin-top:15px;
-border-radius:12px;
-}
-
-.copy {
-background:#333;
-}
-
-.delete {
-background:#d9534f;
+border-radius:10px;
 }
 
 </style>
@@ -63,30 +56,33 @@ background:#d9534f;
 <body>
 
 
-<div class="container">
-
+<div class="box">
 
 <h1>🚀 GrowthMachineAI</h1>
 
 <p>
-AI social media growth engine
+Your AI growth assistant
 </p>
 
 
-<input id="topic" placeholder="Enter your topic">
+<textarea id="idea"
+placeholder="Enter your business idea or content idea">
+</textarea>
 
 
-<button onclick="generate()">
-🤖 Generate Growth Package
+<button onclick="createContent()">
+🤖 Create Viral Content
 </button>
 
 
-<div id="output"></div>
+<button onclick="createStrategy()">
+📈 Create Growth Strategy
+</button>
 
 
-<h2>📚 Saved Content</h2>
-
-<div id="saved"></div>
+<div id="result">
+Ready...
+</div>
 
 
 </div>
@@ -96,180 +92,58 @@ AI social media growth engine
 <script>
 
 
-function loadSaved(){
+function createContent(){
 
-let items =
-JSON.parse(localStorage.getItem("growthContent")) || [];
+let idea =
+document.getElementById("idea").value;
 
 
-let box =
-document.getElementById("saved");
-
-
-box.innerHTML="";
-
-
-items.forEach((item,index)=>{
-
-box.innerHTML += `
-
-<div class="section">
-
-<p>${item}</p>
-
-<button class="copy"
-onclick="copyText(\`${item}\`)">
-📋 Copy
-</button>
-
-
-<button class="delete"
-onclick="deleteItem(${index})">
-🗑 Delete
-</button>
-
-</div>
-
-`;
-
-});
-
-
-}
-
-
-
-function saveContent(text){
-
-let items =
-JSON.parse(localStorage.getItem("growthContent")) || [];
-
-
-items.unshift(text);
-
-
-localStorage.setItem(
-"growthContent",
-JSON.stringify(items)
-);
-
-
-loadSaved();
-
-}
-
-
-
-function deleteItem(index){
-
-let items =
-JSON.parse(localStorage.getItem("growthContent")) || [];
-
-
-items.splice(index,1);
-
-
-localStorage.setItem(
-"growthContent",
-JSON.stringify(items)
-);
-
-
-loadSaved();
-
-}
-
-
-
-async function copyText(text){
-
-await navigator.clipboard.writeText(text);
-
-alert("Copied!");
-
-}
-
-
-
-
-async function generate(){
-
-
-let topic =
-document.getElementById("topic").value;
-
-
-if(!topic){
-
-alert("Enter a topic");
-
-return;
-
-}
-
-
-document.getElementById("output").innerHTML=
-"🤖 Creating content...";
-
-
-const response =
-await fetch("/api/generate",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-topic
-})
-
-});
-
-
-const data =
-await response.json();
-
-
-let content =
-data.content || "No content generated";
-
-
-document.getElementById("output").innerHTML=
+document.getElementById("result").innerHTML =
 
 `
+🔥 Content Idea
 
-<div class="section">
+Hook:
+"Nobody is talking about this..."
 
-<h3>🔥 Generated Content</h3>
+Post:
+${idea}
 
-<p id="result">${content.replace(/\n/g,"<br>")}</p>
-
-
-<button class="copy"
-onclick="copyText(document.getElementById('result').innerText)">
-📋 Copy
-</button>
-
-
-<button onclick="saveContent(document.getElementById('result').innerText)">
-⭐ Save To Library
-</button>
-
-
-</div>
-
+Call to action:
+Follow for more ideas.
 `;
 
 }
 
 
-loadSaved();
+
+function createStrategy(){
+
+let idea =
+document.getElementById("idea").value;
+
+
+document.getElementById("result").innerHTML =
+
+`
+📈 Growth Plan
+
+1. Create daily content about:
+${idea}
+
+2. Build an audience.
+
+3. Improve engagement.
+
+4. Monetise your followers.
+`;
+
+}
 
 
 </script>
 
 
 </body>
+
 </html>

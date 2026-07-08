@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>GrowthMachineAI Analytics</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f3f3f3;
+padding:20px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+}
+
+input,button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+background:#1877f2;
+color:white;
+border:0;
+}
+
+.card{
+background:#eee;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>📈 GrowthMachineAI Analytics</h1>
+
+
+<input id="post"
+placeholder="Post name">
+
+
+<input id="views"
+type="number"
+placeholder="Views">
+
+
+<input id="likes"
+type="number"
+placeholder="Likes">
+
+
+<input id="shares"
+type="number"
+placeholder="Shares">
+
+
+
+<button onclick="addMetric()">
+Add Performance
+</button>
+
+
+
+<h2>Performance</h2>
+
+
+<div id="results"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+function loadData(){
+
+let data =
+JSON.parse(localStorage.getItem("analytics")) || [];
+
+
+document.getElementById("results").innerHTML =
+
+data.map(item=>`
+
+<div class="card">
+
+<b>${item.post}</b>
+
+<p>
+👀 Views: ${item.views}
+</p>
+
+<p>
+❤️ Likes: ${item.likes}
+</p>
+
+<p>
+🔄 Shares: ${item.shares}
+</p>
+
+<p>
+🔥 Engagement:
+${item.rate}%
+</p>
+
+
+</div>
+
+`).join("");
+
+}
+
+
+
+function addMetric(){
+
+
+let views =
+Number(document.getElementById("views").value);
+
+
+let likes =
+Number(document.getElementById("likes").value);
+
+
+let shares =
+Number(document.getElementById("shares").value);
+
+
+
+let rate = views
+?
+(((likes + shares) / views) * 100).toFixed(2)
+:
+0;
+
+
+
+let data =
+JSON.parse(localStorage.getItem("analytics")) || [];
+
+
+
+data.unshift({
+
+post:
+document.getElementById("post").value,
+
+views,
+
+likes,
+
+shares,
+
+rate
+
+});
+
+
+
+localStorage.setItem(
+"analytics",
+JSON.stringify(data)
+);
+
+
+
+loadData();
+
+
+}
+
+
+
+loadData();
+
+
+</script>
+
+
+</body>
+
+</html>

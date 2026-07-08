@@ -1,100 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>GrowthMachineAI</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body {
-  font-family: Arial, sans-serif;
-  background:#f4f4f4;
-  padding:20px;
+font-family: Arial, sans-serif;
+background:#f2f2f2;
+padding:20px;
 }
 
-.card {
-  max-width:600px;
-  margin:auto;
-  background:white;
-  padding:25px;
-  border-radius:15px;
-}
-
-input, button {
-  width:100%;
-  padding:15px;
-  margin-top:10px;
-  border-radius:10px;
-  font-size:16px;
-}
-
-button {
-  background:#1877f2;
-  color:white;
-  border:none;
-}
-
-button:active {
-  transform:scale(.98);
-}
-
-.result {
-  margin-top:20px;
-  padding:15px;
-  background:#eee;
-  border-radius:10px;
+.container {
+max-width:700px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
 }
 
 h1 {
-  text-align:center;
+text-align:center;
 }
+
+input, button {
+width:100%;
+padding:15px;
+margin-top:12px;
+border-radius:12px;
+font-size:16px;
+}
+
+button {
+background:#1877f2;
+color:white;
+border:0;
+}
+
+.section {
+background:#eeeeee;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+}
+
+.copy {
+background:#333;
+margin-top:8px;
+}
+
 </style>
 
 </head>
 
+
 <body>
 
-<div class="card">
+<div class="container">
 
 <h1>🚀 GrowthMachineAI</h1>
 
 <p>
-AI-powered Facebook growth assistant
+Your AI social media growth assistant
 </p>
+
 
 <input 
 id="topic"
-placeholder="Enter your topic"
+placeholder="Enter your content topic"
 />
 
+
 <button onclick="generate()">
-Generate Viral Content
+🤖 Generate Growth Package
 </button>
 
-<div id="result" class="result"></div>
+
+<div id="output"></div>
+
 
 </div>
 
 
 <script>
 
-async function generate(){
 
-const topic=document.getElementById("topic").value;
+async function copyText(text){
 
-if(!topic){
-alert("Enter a topic");
-return;
+await navigator.clipboard.writeText(text);
+
+alert("Copied!");
+
 }
 
 
-document.getElementById("result").innerHTML=
-"🤖 Creating content...";
+
+async function generate(){
+
+let topic =
+document.getElementById("topic").value;
 
 
-try {
+if(!topic){
 
-const response = await fetch("/api/generate", {
+alert("Enter a topic");
+
+return;
+
+}
+
+
+document.getElementById("output").innerHTML=
+"<h3>🤖 Creating...</h3>";
+
+
+
+const response = await fetch("/api/generate",{
 
 method:"POST",
 
@@ -103,51 +127,49 @@ headers:{
 },
 
 body:JSON.stringify({
-topic:topic
+topic
 })
 
 });
 
 
+
 const data = await response.json();
 
 
-document.getElementById("result").innerHTML=`
 
-<h3>🔥 Viral Ideas</h3>
-
-<p>
-${data.ideas.join("<br><br>")}
-</p>
+let content =
+data.content || "No result";
 
 
-<h3>✍️ Caption</h3>
 
-<p>
-${data.caption}
-</p>
+document.getElementById("output").innerHTML=
+
+`
+
+<div class="section">
+
+<h3>🔥 AI Growth Package</h3>
+
+<p id="text">${content.replace(/\n/g,"<br>")}</p>
 
 
-<h3>#️⃣ Hashtags</h3>
+<button class="copy"
+onclick="copyText(document.getElementById('text').innerText)">
+📋 Copy Everything
+</button>
 
-<p>
-${data.hashtags}
-</p>
+
+</div>
 
 `;
 
 }
 
-catch(error){
-
-document.getElementById("result").innerHTML=
-"❌ Error connecting to AI engine";
-
-}
-
-}
 
 </script>
 
+
 </body>
+
 </html>

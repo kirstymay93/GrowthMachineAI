@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>GrowthMachineAI Creator Dashboard</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f3f3f3;
+padding:20px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+}
+
+input,button{
+width:100%;
+padding:15px;
+margin-top:10px;
+border-radius:12px;
+font-size:16px;
+}
+
+button{
+background:#1877f2;
+color:white;
+border:0;
+}
+
+.box{
+background:#eeeeee;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+white-space:pre-wrap;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>🚀 GrowthMachineAI</h1>
+
+<h2>Creator Command Center</h2>
+
+
+<input id="topic"
+placeholder="Enter your niche or topic">
+
+
+<button onclick="generate()">
+🤖 Generate Content
+</button>
+
+
+<button onclick="trends()">
+🔥 Find Trends
+</button>
+
+
+
+<div id="content" class="box"></div>
+
+<div id="trend" class="box"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+async function generate(){
+
+
+let topic =
+document.getElementById("topic").value;
+
+
+document.getElementById("content").innerHTML =
+"Creating...";
+
+
+const response =
+await fetch("/api/generate",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+topic
+})
+
+});
+
+
+const data =
+await response.json();
+
+
+document.getElementById("content").innerHTML =
+data.content || "No result";
+
+
+}
+
+
+
+async function trends(){
+
+
+let topic =
+document.getElementById("topic").value;
+
+
+document.getElementById("trend").innerHTML =
+"Searching trends...";
+
+
+const response =
+await fetch("/api/trends",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+topic
+})
+
+});
+
+
+const data =
+await response.json();
+
+
+document.getElementById("trend").innerHTML =
+data.trends || "No trends found";
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

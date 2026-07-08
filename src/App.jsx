@@ -1,25 +1,59 @@
-import React, {useState} from "react";
+import React,{useState} from "react";
+import {runAI} from "./api";
 
 
 export default function App(){
 
 
-const [active,setActive] = useState("Dashboard");
+const [active,setActive]=useState("Dashboard");
+
+const [input,setInput]=useState("");
+
+const [result,setResult]=useState("");
 
 
-const tools = [
+const tools=[
 
-"Dashboard",
-"Content AI",
-"Trend Radar",
-"Viral Score",
-"Brand Builder",
-"Campaigns",
-"Revenue",
-"Analytics",
-"AI Coach"
+["Dashboard","dashboard"],
+
+["Content AI","generate"],
+
+["Trend Radar","trends"],
+
+["Viral Score","score"],
+
+["Brand Builder","brand"],
+
+["Campaigns","campaign"],
+
+["Revenue","revenue"],
+
+["AI Coach","coach"]
 
 ];
+
+
+
+async function execute(){
+
+
+setResult("🤖 Working...");
+
+
+const output =
+await runAI(
+active==="Content AI"?
+"generate":
+active.toLowerCase().replace(" ",""),
+input
+);
+
+
+setResult(output);
+
+
+}
+
 
 
 return (
@@ -31,13 +65,11 @@ fontFamily:"Arial"
 }}>
 
 
-<div style={{
-
+<nav style={{
 width:"220px",
 background:"#111827",
 color:"white",
 padding:"20px"
-
 }}>
 
 
@@ -46,45 +78,37 @@ padding:"20px"
 </h2>
 
 
-{tools.map(tool=>(
+{tools.map(t=>(
 
 <button
 
-key={tool}
+key={t[0]}
 
-onClick={()=>setActive(tool)}
+onClick={()=>setActive(t[0])}
 
 style={{
-
-display:"block",
 width:"100%",
 padding:"12px",
-margin:"8px 0",
-borderRadius:"10px",
-border:"0",
-cursor:"pointer"
-
+margin:"5px 0"
 }}
 
 >
 
-{tool}
+{t[0]}
 
 </button>
 
 ))}
 
 
-</div>
+</nav>
 
 
 
-<div style={{
-
+<main style={{
 flex:1,
 padding:"30px",
 background:"#f4f6f8"
-
 }}>
 
 
@@ -93,54 +117,55 @@ background:"#f4f6f8"
 </h1>
 
 
+<textarea
+
+placeholder="Enter your idea..."
+
+value={input}
+
+onChange={
+e=>setInput(e.target.value)
+}
+
+style={{
+width:"100%",
+height:"120px"
+}}
+
+/>
+
+
+<button
+
+onClick={execute}
+
+style={{
+marginTop:"15px",
+padding:"15px"
+}}
+
+>
+
+Run AI
+
+</button>
+
+
+
 <div style={{
-
 background:"white",
-padding:"25px",
-borderRadius:"20px"
-
+marginTop:"20px",
+padding:"20px",
+borderRadius:"15px",
+whiteSpace:"pre-wrap"
 }}>
 
-
-{active==="Dashboard" && (
-
-<div>
-
-<h2>
-Welcome to GrowthMachineAI
-</h2>
-
-<p>
-Your AI powered growth command centre.
-</p>
-
-</div>
-
-)}
-
-
-
-{active!=="Dashboard" && (
-
-<div>
-
-<h2>
-{active}
-</h2>
-
-<p>
-This module is ready to connect to your AI engine.
-</p>
-
-</div>
-
-)}
-
+{result}
 
 </div>
 
 
-</div>
+</main>
 
 
 </div>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>GrowthMachineAI Command Centre</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#111827;
+padding:20px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+}
+
+h1{
+text-align:center;
+}
+
+input,textarea,button,select{
+width:100%;
+padding:14px;
+margin-top:10px;
+border-radius:12px;
+font-size:16px;
+}
+
+button{
+background:#1877f2;
+color:white;
+border:0;
+}
+
+.card{
+background:#eeeeee;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+white-space:pre-wrap;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>🚀 GrowthMachineAI</h1>
+
+<h2>AI Command Centre</h2>
+
+
+<select id="tool">
+
+<option value="generate">
+Content Generator
+</option>
+
+<option value="trends">
+Trend Radar
+</option>
+
+<option value="brand">
+Brand Builder
+</option>
+
+<option value="campaign">
+Campaign Builder
+</option>
+
+<option value="revenue">
+Revenue Engine
+</option>
+
+</select>
+
+
+
+<textarea id="input"
+placeholder="Describe your idea, business or goal">
+</textarea>
+
+
+
+<button onclick="runAI()">
+⚡ Run AI Engine
+</button>
+
+
+
+<div id="result" class="card"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+async function runAI(){
+
+
+let tool =
+document.getElementById("tool").value;
+
+
+let input =
+document.getElementById("input").value;
+
+
+document.getElementById("result").innerHTML =
+"🤖 Processing...";
+
+
+
+let endpoint="/api/"+tool;
+
+
+
+let response =
+await fetch(endpoint,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+topic:input,
+
+business:input,
+
+niche:input,
+
+goal:input,
+
+audience:input,
+
+skills:input,
+
+product:input
+
+})
+
+});
+
+
+
+let data =
+await response.json();
+
+
+
+document.getElementById("result").innerHTML =
+
+data.content ||
+data.trends ||
+data.brand ||
+data.campaign ||
+data.revenue ||
+JSON.stringify(data);
+
+
+
+}
+
+</script>
+
+
+</body>
+
+</html>

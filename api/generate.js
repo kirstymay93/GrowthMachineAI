@@ -6,7 +6,6 @@ error:"Method not allowed"
 });
 }
 
-
 const {idea}=req.body;
 
 
@@ -36,9 +35,15 @@ content:
 {
 role:"user",
 content:
-`Create viral content and growth advice for:
+`Create a viral growth plan for:
 
-${idea}`
+${idea}
+
+Include:
+- Hook
+- Post idea
+- Audience strategy
+- Monetisation idea`
 }
 
 ]

@@ -7,6 +7,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="manifest" href="/manifest.json">
+
+<meta name="theme-color" content="#1877f2">
+
 <style>
 
 body{
@@ -16,28 +20,23 @@ background:#f5f5f5;
 padding-bottom:80px;
 }
 
-
 .header{
 background:#1877f2;
 color:white;
-padding:20px;
+padding:25px;
 text-align:center;
 }
-
 
 .container{
 padding:20px;
 }
-
 
 .card{
 background:white;
 padding:20px;
 margin-bottom:15px;
 border-radius:18px;
-box-shadow:0 2px 8px #ddd;
 }
-
 
 button{
 width:100%;
@@ -50,9 +49,7 @@ color:white;
 font-size:16px;
 }
 
-
 .nav{
-
 position:fixed;
 bottom:0;
 left:0;
@@ -61,20 +58,17 @@ background:white;
 display:flex;
 justify-content:space-around;
 padding:15px;
-border-top:1px solid #ddd;
-
 }
-
 
 .nav button{
-
-width:auto;
 background:none;
 color:#1877f2;
-padding:5px;
-
+width:auto;
 }
 
+.install{
+background:#111827;
+}
 
 </style>
 
@@ -93,19 +87,16 @@ padding:5px;
 </div>
 
 
-
 <div class="container">
 
 
 <div class="card">
 
-<h2>🤖 AI Creator</h2>
+<h2>🤖 AI Content Creator</h2>
 
-<p>
-Generate viral content ideas instantly.
-</p>
+<p>Create viral posts, captions and ideas.</p>
 
-<button onclick="openTool('Content Generator')">
+<button>
 Create Content
 </button>
 
@@ -117,11 +108,9 @@ Create Content
 
 <h2>🔥 Trend Radar</h2>
 
-<p>
-Discover opportunities before others.
-</p>
+<p>Discover opportunities and trends.</p>
 
-<button onclick="openTool('Trend Radar')">
+<button>
 Find Trends
 </button>
 
@@ -133,12 +122,24 @@ Find Trends
 
 <h2>💰 Growth Coach</h2>
 
-<p>
-Get personalised strategy advice.
-</p>
+<p>Your AI marketing assistant.</p>
 
-<button onclick="openTool('AI Coach')">
+<button>
 Ask Coach
+</button>
+
+</div>
+
+
+
+<div class="card" id="installBox" style="display:none">
+
+<h2>📲 Install App</h2>
+
+<p>Add GrowthMachineAI to your home screen.</p>
+
+<button class="install" id="installButton">
+Install GrowthMachineAI
 </button>
 
 </div>
@@ -150,17 +151,11 @@ Ask Coach
 
 <div class="nav">
 
-<button>
-🏠 Home
-</button>
+<button>🏠 Home</button>
 
-<button>
-📊 Analytics
-</button>
+<button>📊 Analytics</button>
 
-<button>
-👤 Profile
-</button>
+<button>👤 Profile</button>
 
 </div>
 
@@ -169,11 +164,54 @@ Ask Coach
 <script>
 
 
-function openTool(tool){
+let deferredPrompt;
 
-alert(
-tool + " opening soon"
+
+window.addEventListener(
+"beforeinstallprompt",
+(event)=>{
+
+event.preventDefault();
+
+deferredPrompt = event;
+
+
+document.getElementById(
+"installBox"
+).style.display="block";
+
+
+});
+
+
+document.getElementById(
+"installButton"
+).onclick = async ()=>{
+
+
+if(deferredPrompt){
+
+deferredPrompt.prompt();
+
+deferredPrompt=null;
+
+}
+
+};
+
+
+
+if("serviceWorker" in navigator){
+
+window.addEventListener(
+"load",
+()=>{
+
+navigator.serviceWorker.register(
+"/service-worker.js"
 );
+
+});
 
 }
 

@@ -3,21 +3,19 @@
 
 <head>
 
-<title>GrowthMachineAI App</title>
+<title>GrowthMachineAI Hub</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="manifest" href="/manifest.json">
-
-<meta name="theme-color" content="#1877f2">
 
 <style>
 
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:#f5f5f5;
-padding-bottom:80px;
+background:#f4f6f8;
+padding-bottom:90px;
 }
 
 .header{
@@ -31,22 +29,28 @@ text-align:center;
 padding:20px;
 }
 
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
 .card{
 background:white;
 padding:20px;
-margin-bottom:15px;
 border-radius:18px;
+text-align:center;
+box-shadow:0 2px 8px #ddd;
 }
 
 button{
 width:100%;
-padding:15px;
-margin-top:10px;
-border-radius:12px;
+padding:12px;
 border:0;
+border-radius:12px;
 background:#1877f2;
 color:white;
-font-size:16px;
+margin-top:10px;
 }
 
 .nav{
@@ -66,10 +70,6 @@ color:#1877f2;
 width:auto;
 }
 
-.install{
-background:#111827;
-}
-
 </style>
 
 </head>
@@ -82,22 +82,31 @@ background:#111827;
 
 <h1>🚀 GrowthMachineAI</h1>
 
-<p>Your AI Growth Partner</p>
+<p>Your AI Business Growth System</p>
 
 </div>
+
 
 
 <div class="container">
 
 
+<h2>AI Command Centre</h2>
+
+
+<div class="grid">
+
+
 <div class="card">
 
-<h2>🤖 AI Content Creator</h2>
+<h2>🤖</h2>
 
-<p>Create viral posts, captions and ideas.</p>
+<h3>Content</h3>
 
-<button>
-Create Content
+<p>Create viral posts</p>
+
+<button onclick="openTool('Content')">
+Open
 </button>
 
 </div>
@@ -106,12 +115,14 @@ Create Content
 
 <div class="card">
 
-<h2>🔥 Trend Radar</h2>
+<h2>🔥</h2>
 
-<p>Discover opportunities and trends.</p>
+<h3>Trends</h3>
 
-<button>
-Find Trends
+<p>Find opportunities</p>
+
+<button onclick="openTool('Trends')">
+Open
 </button>
 
 </div>
@@ -120,27 +131,98 @@ Find Trends
 
 <div class="card">
 
-<h2>💰 Growth Coach</h2>
+<h2>⭐</h2>
 
-<p>Your AI marketing assistant.</p>
+<h3>Viral Score</h3>
 
-<button>
-Ask Coach
+<p>Rate ideas</p>
+
+<button onclick="openTool('Score')">
+Open
 </button>
 
 </div>
 
 
 
-<div class="card" id="installBox" style="display:none">
+<div class="card">
 
-<h2>📲 Install App</h2>
+<h2>🎨</h2>
 
-<p>Add GrowthMachineAI to your home screen.</p>
+<h3>Brand</h3>
 
-<button class="install" id="installButton">
-Install GrowthMachineAI
+<p>Build identity</p>
+
+<button onclick="openTool('Brand')">
+Open
 </button>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>📣</h2>
+
+<h3>Campaigns</h3>
+
+<p>Create plans</p>
+
+<button onclick="openTool('Campaign')">
+Open
+</button>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>💰</h2>
+
+<h3>Revenue</h3>
+
+<p>Find income ideas</p>
+
+<button onclick="openTool('Revenue')">
+Open
+</button>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>📅</h2>
+
+<h3>Calendar</h3>
+
+<p>Plan posts</p>
+
+<button onclick="openTool('Calendar')">
+Open
+</button>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>🤖</h2>
+
+<h3>Coach</h3>
+
+<p>Ask AI</p>
+
+<button onclick="openTool('Coach')">
+Open
+</button>
+
+</div>
+
 
 </div>
 
@@ -164,54 +246,21 @@ Install GrowthMachineAI
 <script>
 
 
-let deferredPrompt;
+function openTool(tool){
 
-
-window.addEventListener(
-"beforeinstallprompt",
-(event)=>{
-
-event.preventDefault();
-
-deferredPrompt = event;
-
-
-document.getElementById(
-"installBox"
-).style.display="block";
-
-
-});
-
-
-document.getElementById(
-"installButton"
-).onclick = async ()=>{
-
-
-if(deferredPrompt){
-
-deferredPrompt.prompt();
-
-deferredPrompt=null;
+alert(
+tool + " module loading..."
+);
 
 }
-
-};
 
 
 
 if("serviceWorker" in navigator){
 
-window.addEventListener(
-"load",
-()=>{
-
 navigator.serviceWorker.register(
 "/service-worker.js"
 );
-
-});
 
 }
 

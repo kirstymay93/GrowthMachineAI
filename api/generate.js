@@ -1,82 +1,63 @@
-export default async function handler(req, res) {
+export default async function handler(req,res){
 
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Method not allowed"
-    });
-  }
-
-  const { topic } = req.body;
-
-  if (!topic) {
-    return res.status(400).json({
-      error: "Topic is required"
-    });
-  }
+if(req.method !== "POST"){
+return res.status(405).json({
+error:"Method not allowed"
+});
+}
 
 
-  try {
-
-    const response = await fetch(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
-        },
-
-        body: JSON.stringify({
-
-          model: "gpt-4.1-mini",
-
-          messages: [
-            {
-              role: "system",
-              content:
-              "You are an expert Facebook growth strategist. Create viral social media content."
-            },
-            {
-              role: "user",
-              content:
-`Create a Facebook growth package for this topic:
-
-${topic}
-
-Return:
-
-1. Five viral post ideas
-2. Three engaging captions
-3. One Reel script
-4. Ten hashtags
-5. One question that encourages comments`
-            }
-          ]
-
-        })
-      }
-    );
+const {idea}=req.body;
 
 
-    const data = await response.json();
+const response = await fetch(
+"https://api.openai.com/v1/chat/completions",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"Authorization":
+`Bearer ${process.env.OPENAI_API_KEY}`
+},
+
+body:JSON.stringify({
+
+model:"gpt-4.1-mini",
+
+messages:[
+
+{
+role:"system",
+content:
+"You are GrowthMachineAI, an expert social media growth strategist."
+},
+
+{
+role:"user",
+content:
+`Create viral content and growth advice for:
+
+${idea}`
+}
+
+]
+
+})
+
+});
 
 
-    res.status(200).json({
-
-      content:
-      data.choices?.[0]?.message?.content ||
-      "No content generated"
-
-    });
+const data =
+await response.json();
 
 
-  } catch(error) {
+res.status(200).json({
 
-    res.status(500).json({
-      error:"AI generation failed"
-    });
+result:
+data.choices[0].message.content
 
-  }
+});
+
 
 }

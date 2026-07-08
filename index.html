@@ -23,31 +23,32 @@ padding:25px;
 border-radius:20px;
 }
 
-textarea,input{
+textarea,button{
+
 width:100%;
 padding:15px;
 margin-top:10px;
 border-radius:12px;
-border:1px solid #ccc;
+
 }
 
 button{
-width:100%;
-padding:15px;
-margin-top:10px;
-border:0;
-border-radius:12px;
+
 background:#1877f2;
 color:white;
+border:0;
 font-size:16px;
+
 }
 
-.card{
+.result{
+
+margin-top:20px;
 background:#eee;
 padding:15px;
-margin-top:20px;
 border-radius:12px;
 white-space:pre-wrap;
+
 }
 
 </style>
@@ -60,35 +61,22 @@ white-space:pre-wrap;
 
 <div class="app">
 
-
 <h1>🚀 GrowthMachineAI</h1>
 
-<p>
-AI powered content and growth assistant
-</p>
+<p>AI powered growth assistant</p>
 
 
 <textarea id="idea"
-placeholder="Enter your idea, business or niche">
+placeholder="Enter your business or content idea">
 </textarea>
 
 
 <button onclick="generate()">
-🤖 Generate Content
+🤖 Generate AI Growth Plan
 </button>
 
 
-<button onclick="strategy()">
-📈 Growth Strategy
-</button>
-
-
-<button onclick="save()">
-💾 Save Idea
-</button>
-
-
-<div id="result" class="card">
+<div id="result" class="result">
 Ready...
 </div>
 
@@ -99,80 +87,42 @@ Ready...
 
 <script>
 
+async function generate(){
 
-function generate(){
 
 let idea =
 document.getElementById("idea").value;
 
 
 document.getElementById("result").innerHTML =
-
-`🔥 Viral Content
-
-Hook:
-Stop scrolling...
-
-Post idea:
-${idea}
-
-Call to action:
-Comment your thoughts.`;
-
-}
+"🤖 Creating...";
 
 
+let response =
+await fetch("/api/generate",{
 
-function strategy(){
+method:"POST",
 
-let idea =
-document.getElementById("idea").value;
+headers:{
+"Content-Type":"application/json"
+},
 
+body:JSON.stringify({
+idea
+})
 
-document.getElementById("result").innerHTML =
-
-`📈 Growth Strategy
-
-Niche:
-${idea}
-
-Daily:
-• Create valuable posts
-• Engage with followers
-• Study trends
-• Improve content
-
-Goal:
-Grow audience and monetise.`;
-
-}
+});
 
 
-
-function save(){
-
-let idea =
-document.getElementById("idea").value;
-
-
-let saved =
-JSON.parse(localStorage.getItem("ideas") || "[]");
-
-
-saved.push(idea);
-
-
-localStorage.setItem(
-"ideas",
-JSON.stringify(saved)
-);
+let data =
+await response.json();
 
 
 document.getElementById("result").innerHTML =
-"✅ Idea saved!";
+data.result || data.error;
+
 
 }
-
 
 </script>
 

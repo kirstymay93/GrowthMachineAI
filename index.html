@@ -37,11 +37,10 @@ button{
 background:#1877f2;
 color:white;
 border:0;
-font-size:16px;
 
 }
 
-.result{
+.box{
 
 margin-top:20px;
 background:#eee;
@@ -61,22 +60,31 @@ white-space:pre-wrap;
 
 <div class="app">
 
-<h1>🚀 GrowthMachineAI</h1>
 
-<p>AI powered growth assistant</p>
+<h1>🚀 GrowthMachineAI</h1>
 
 
 <textarea id="idea"
-placeholder="Enter your business or content idea">
+placeholder="Enter your idea">
 </textarea>
 
 
 <button onclick="generate()">
-🤖 Generate AI Growth Plan
+🤖 Generate AI Plan
 </button>
 
 
-<div id="result" class="result">
+<button onclick="saveIdea()">
+💾 Save Result
+</button>
+
+
+<button onclick="showSaved()">
+📚 My Saved Ideas
+</button>
+
+
+<div id="result" class="box">
 Ready...
 </div>
 
@@ -86,6 +94,10 @@ Ready...
 
 
 <script>
+
+
+let latest="";
+
 
 async function generate(){
 
@@ -118,11 +130,71 @@ let data =
 await response.json();
 
 
-document.getElementById("result").innerHTML =
+latest =
 data.result || data.error;
 
 
+document.getElementById("result").innerHTML =
+latest;
+
+
 }
+
+
+
+function saveIdea(){
+
+
+if(!latest){
+
+return;
+
+}
+
+
+let saved =
+JSON.parse(
+localStorage.getItem("savedIdeas") || "[]"
+);
+
+
+saved.push(latest);
+
+
+localStorage.setItem(
+"savedIdeas",
+JSON.stringify(saved)
+);
+
+
+document.getElementById("result").innerHTML =
+"✅ Saved!";
+
+
+}
+
+
+
+function showSaved(){
+
+
+let saved =
+JSON.parse(
+localStorage.getItem("savedIdeas") || "[]"
+);
+
+
+document.getElementById("result").innerHTML =
+
+saved.length ?
+
+saved.join("\n\n---\n\n") :
+
+"No saved ideas yet";
+
+
+}
+
 
 </script>
 

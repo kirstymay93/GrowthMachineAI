@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>GrowthMachineAI Calendar</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f3f3f3;
+padding:20px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+}
+
+input, select, button, textarea{
+width:100%;
+padding:14px;
+margin-top:10px;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+background:#1877f2;
+color:white;
+border:0;
+}
+
+.item{
+background:#eee;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>📅 GrowthMachineAI Calendar</h1>
+
+
+<input id="date" type="date">
+
+
+<select id="platform">
+
+<option>Facebook</option>
+
+<option>Instagram</option>
+
+<option>TikTok</option>
+
+<option>LinkedIn</option>
+
+</select>
+
+
+<textarea id="idea"
+placeholder="Post idea or content"></textarea>
+
+
+
+<button onclick="savePost()">
+➕ Add Scheduled Post
+</button>
+
+
+
+<h2>Scheduled Content</h2>
+
+
+<div id="posts"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+function loadPosts(){
+
+let posts =
+JSON.parse(localStorage.getItem("calendar")) || [];
+
+
+document.getElementById("posts").innerHTML =
+
+posts.map((post,index)=>`
+
+<div class="item">
+
+<b>${post.date}</b>
+
+<br>
+
+${post.platform}
+
+<p>${post.idea}</p>
+
+<button onclick="removePost(${index})">
+Delete
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+
+function savePost(){
+
+let posts =
+JSON.parse(localStorage.getItem("calendar")) || [];
+
+
+posts.push({
+
+date:
+document.getElementById("date").value,
+
+platform:
+document.getElementById("platform").value,
+
+idea:
+document.getElementById("idea").value
+
+});
+
+
+localStorage.setItem(
+"calendar",
+JSON.stringify(posts)
+);
+
+
+loadPosts();
+
+}
+
+
+
+function removePost(index){
+
+let posts =
+JSON.parse(localStorage.getItem("calendar")) || [];
+
+
+posts.splice(index,1);
+
+
+localStorage.setItem(
+"calendar",
+JSON.stringify(posts)
+);
+
+
+loadPosts();
+
+}
+
+
+
+loadPosts();
+
+
+</script>
+
+
+</body>
+
+</html>

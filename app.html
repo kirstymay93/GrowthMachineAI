@@ -3,7 +3,7 @@
 
 <head>
 
-<title>GrowthMachineAI Hub</title>
+<title>GrowthMachineAI Command Centre</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -15,7 +15,7 @@ body{
 margin:0;
 font-family:Arial,sans-serif;
 background:#f4f6f8;
-padding-bottom:90px;
+padding-bottom:80px;
 }
 
 .header{
@@ -82,145 +82,89 @@ width:auto;
 
 <h1>🚀 GrowthMachineAI</h1>
 
-<p>Your AI Business Growth System</p>
+<p>AI Growth Operating System</p>
 
 </div>
-
 
 
 <div class="container">
 
 
-<h2>AI Command Centre</h2>
+<h2>Command Centre</h2>
 
 
 <div class="grid">
 
 
 <div class="card">
-
 <h2>🤖</h2>
-
 <h3>Content</h3>
-
-<p>Create viral posts</p>
-
-<button onclick="openTool('Content')">
+<button onclick="go('index.html')">
 Open
 </button>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>🔥</h2>
-
 <h3>Trends</h3>
-
-<p>Find opportunities</p>
-
-<button onclick="openTool('Trends')">
+<button onclick="go('trends.html')">
 Open
 </button>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>⭐</h2>
-
 <h3>Viral Score</h3>
-
-<p>Rate ideas</p>
-
-<button onclick="openTool('Score')">
+<button onclick="go('score.html')">
 Open
 </button>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>🎨</h2>
-
 <h3>Brand</h3>
-
-<p>Build identity</p>
-
-<button onclick="openTool('Brand')">
+<button onclick="go('brand.html')">
 Open
 </button>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>📣</h2>
-
-<h3>Campaigns</h3>
-
-<p>Create plans</p>
-
-<button onclick="openTool('Campaign')">
+<h3>Campaign</h3>
+<button onclick="go('campaign.html')">
 Open
 </button>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>💰</h2>
-
 <h3>Revenue</h3>
-
-<p>Find income ideas</p>
-
-<button onclick="openTool('Revenue')">
+<button onclick="go('revenue.html')">
 Open
 </button>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>📅</h2>
-
 <h3>Calendar</h3>
-
-<p>Plan posts</p>
-
-<button onclick="openTool('Calendar')">
+<button onclick="go('calendar.html')">
 Open
 </button>
-
 </div>
 
 
-
 <div class="card">
-
-<h2>🤖</h2>
-
-<h3>Coach</h3>
-
-<p>Ask AI</p>
-
-<button onclick="openTool('Coach')">
+<h2>🧠</h2>
+<h3>AI Coach</h3>
+<button onclick="go('coach.html')">
 Open
 </button>
-
 </div>
 
 
@@ -233,11 +177,17 @@ Open
 
 <div class="nav">
 
-<button>🏠 Home</button>
+<button onclick="go('app.html')">
+🏠 Home
+</button>
 
-<button>📊 Analytics</button>
+<button onclick="go('analytics.html')">
+📊 Analytics
+</button>
 
-<button>👤 Profile</button>
+<button onclick="go('profile.html')">
+👤 Profile
+</button>
 
 </div>
 
@@ -246,11 +196,9 @@ Open
 <script>
 
 
-function openTool(tool){
+function go(page){
 
-alert(
-tool + " module loading..."
-);
+window.location.href=page;
 
 }
 

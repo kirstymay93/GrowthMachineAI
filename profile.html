@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>GrowthMachineAI Profile</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f6f8;
+padding:20px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+}
+
+input,select,button{
+width:100%;
+padding:15px;
+margin-top:10px;
+border-radius:12px;
+font-size:16px;
+}
+
+button{
+background:#1877f2;
+color:white;
+border:0;
+}
+
+.card{
+background:#eee;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>👤 Growth Profile</h1>
+
+<p>
+Tell GrowthMachineAI about your goals.
+</p>
+
+
+<input id="name"
+placeholder="Your name">
+
+
+<input id="business"
+placeholder="Business or project">
+
+
+<input id="niche"
+placeholder="Your niche">
+
+
+<select id="goal">
+
+<option>Grow followers</option>
+
+<option>Make money online</option>
+
+<option>Build a brand</option>
+
+<option>Grow a business</option>
+
+<option>Create content</option>
+
+</select>
+
+
+<button onclick="saveProfile()">
+Save Profile
+</button>
+
+
+<div id="result" class="card"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+function saveProfile(){
+
+
+let profile={
+
+name:
+document.getElementById("name").value,
+
+business:
+document.getElementById("business").value,
+
+niche:
+document.getElementById("niche").value,
+
+goal:
+document.getElementById("goal").value
+
+};
+
+
+
+localStorage.setItem(
+"growthProfile",
+JSON.stringify(profile)
+);
+
+
+
+document.getElementById("result").innerHTML=
+
+`
+<h3>Profile Saved ✅</h3>
+
+<p>
+Welcome ${profile.name}
+</p>
+
+<p>
+Goal: ${profile.goal}
+</p>
+
+<p>
+GrowthMachineAI is ready to personalise your strategy.
+</p>
+`;
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>

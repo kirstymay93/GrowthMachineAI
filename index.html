@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GrowthMachineAI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background:#f5f5f5;
+}
+.card {
+  background:white;
+  padding:20px;
+  border-radius:15px;
+}
+input, button {
+  width:100%;
+  padding:15px;
+  margin-top:10px;
+  border-radius:10px;
+  font-size:16px;
+}
+button {
+  background:#1877f2;
+  color:white;
+  border:none;
+}
+.result {
+  margin-top:20px;
+  background:#eee;
+  padding:15px;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🚀 GrowthMachineAI</h1>
+
+<p>
+AI-powered Facebook growth assistant
+</p>
+
+<input id="topic" placeholder="Enter your topic">
+
+<button onclick="generate()">
+Generate Viral Content
+</button>
+
+<div id="result" class="result"></div>
+
+</div>
+
+
+<script>
+
+function generate(){
+
+let topic=document.getElementById("topic").value;
+
+document.getElementById("result").innerHTML=`
+
+<h3>🔥 Viral Ideas</h3>
+
+<p>• 5 things nobody knows about ${topic}</p>
+<p>• The ultimate ${topic} guide</p>
+<p>• Why everyone is talking about ${topic}</p>
+
+
+<h3>✍️ Captions</h3>
+
+<p>
+You won't believe what we discovered about ${topic}!
+</p>
+
+<p>
+Most people get ${topic} wrong...
+</p>
+
+
+<h3>#️⃣ Hashtags</h3>
+
+<p>
+#AI #Growth #Marketing #Viral #Creator
+</p>
+
+`;
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>GrowthMachineAI Tool</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f6f8;
+padding:20px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+}
+
+input,textarea,button{
+width:100%;
+padding:15px;
+margin-top:10px;
+border-radius:12px;
+font-size:16px;
+}
+
+button{
+background:#1877f2;
+color:white;
+border:0;
+}
+
+.result{
+margin-top:20px;
+background:#eee;
+padding:15px;
+border-radius:12px;
+white-space:pre-wrap;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>🚀 GrowthMachineAI</h1>
+
+<h2 id="title">
+AI Tool
+</h2>
+
+
+<textarea id="input"
+placeholder="Enter your idea, business or goal">
+</textarea>
+
+
+<button onclick="runAI()">
+⚡ Run AI
+</button>
+
+
+<div id="result" class="result"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+
+const tool =
+params.get("tool") || "generate";
+
+
+document.getElementById("title").innerHTML =
+tool + " AI Assistant";
+
+
+
+async function runAI(){
+
+
+const input =
+document.getElementById("input").value;
+
+
+document.getElementById("result").innerHTML =
+"🤖 Working...";
+
+
+
+let endpoint="/api/"+tool;
+
+
+
+let response =
+await fetch(endpoint,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+topic:input,
+
+business:input,
+
+niche:input,
+
+goal:input,
+
+audience:input,
+
+skills:input,
+
+product:input,
+
+message:input
+
+})
+
+});
+
+
+
+let data =
+await response.json();
+
+
+
+document.getElementById("result").innerHTML =
+
+data.content ||
+data.trends ||
+data.brand ||
+data.campaign ||
+data.revenue ||
+data.answer ||
+JSON.stringify(data);
+
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -15,37 +15,39 @@ background:#f4f6f8;
 padding:20px;
 }
 
-.box{
-background:white;
-padding:20px;
-border-radius:20px;
+.app{
 max-width:600px;
 margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+}
+
+textarea,input{
+width:100%;
+padding:15px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #ccc;
 }
 
 button{
 width:100%;
 padding:15px;
 margin-top:10px;
+border:0;
+border-radius:12px;
 background:#1877f2;
 color:white;
-border:0;
-border-radius:10px;
 font-size:16px;
 }
 
-textarea{
-width:100%;
-height:120px;
-margin-top:10px;
-padding:10px;
-}
-
-#result{
-margin-top:20px;
+.card{
 background:#eee;
 padding:15px;
-border-radius:10px;
+margin-top:20px;
+border-radius:12px;
+white-space:pre-wrap;
 }
 
 </style>
@@ -56,31 +58,37 @@ border-radius:10px;
 <body>
 
 
-<div class="box">
+<div class="app">
+
 
 <h1>🚀 GrowthMachineAI</h1>
 
 <p>
-Your AI growth assistant
+AI powered content and growth assistant
 </p>
 
 
 <textarea id="idea"
-placeholder="Enter your business idea or content idea">
+placeholder="Enter your idea, business or niche">
 </textarea>
 
 
-<button onclick="createContent()">
-🤖 Create Viral Content
+<button onclick="generate()">
+🤖 Generate Content
 </button>
 
 
-<button onclick="createStrategy()">
-📈 Create Growth Strategy
+<button onclick="strategy()">
+📈 Growth Strategy
 </button>
 
 
-<div id="result">
+<button onclick="save()">
+💾 Save Idea
+</button>
+
+
+<div id="result" class="card">
 Ready...
 </div>
 
@@ -92,7 +100,7 @@ Ready...
 <script>
 
 
-function createContent(){
+function generate(){
 
 let idea =
 document.getElementById("idea").value;
@@ -100,24 +108,22 @@ document.getElementById("idea").value;
 
 document.getElementById("result").innerHTML =
 
-`
-🔥 Content Idea
+`🔥 Viral Content
 
 Hook:
-"Nobody is talking about this..."
+Stop scrolling...
 
-Post:
+Post idea:
 ${idea}
 
 Call to action:
-Follow for more ideas.
-`;
+Comment your thoughts.`;
 
 }
 
 
 
-function createStrategy(){
+function strategy(){
 
 let idea =
 document.getElementById("idea").value;
@@ -125,18 +131,45 @@ document.getElementById("idea").value;
 
 document.getElementById("result").innerHTML =
 
-`
-📈 Growth Plan
+`📈 Growth Strategy
 
-1. Create daily content about:
+Niche:
 ${idea}
 
-2. Build an audience.
+Daily:
+• Create valuable posts
+• Engage with followers
+• Study trends
+• Improve content
 
-3. Improve engagement.
+Goal:
+Grow audience and monetise.`;
 
-4. Monetise your followers.
-`;
+}
+
+
+
+function save(){
+
+let idea =
+document.getElementById("idea").value;
+
+
+let saved =
+JSON.parse(localStorage.getItem("ideas") || "[]");
+
+
+saved.push(idea);
+
+
+localStorage.setItem(
+"ideas",
+JSON.stringify(saved)
+);
+
+
+document.getElementById("result").innerHTML =
+"✅ Idea saved!";
 
 }
 

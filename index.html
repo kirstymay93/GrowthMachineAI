@@ -9,7 +9,7 @@
 <style>
 
 body {
-font-family: Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#f2f2f2;
 padding:20px;
 }
@@ -26,10 +26,10 @@ h1 {
 text-align:center;
 }
 
-input, button {
+input,button {
 width:100%;
 padding:15px;
-margin-top:12px;
+margin-top:10px;
 border-radius:12px;
 font-size:16px;
 }
@@ -49,7 +49,10 @@ border-radius:12px;
 
 .copy {
 background:#333;
-margin-top:8px;
+}
+
+.delete {
+background:#d9534f;
 }
 
 </style>
@@ -59,19 +62,18 @@ margin-top:8px;
 
 <body>
 
+
 <div class="container">
+
 
 <h1>🚀 GrowthMachineAI</h1>
 
 <p>
-Your AI social media growth assistant
+AI social media growth engine
 </p>
 
 
-<input 
-id="topic"
-placeholder="Enter your content topic"
-/>
+<input id="topic" placeholder="Enter your topic">
 
 
 <button onclick="generate()">
@@ -82,10 +84,101 @@ placeholder="Enter your content topic"
 <div id="output"></div>
 
 
+<h2>📚 Saved Content</h2>
+
+<div id="saved"></div>
+
+
 </div>
 
 
+
 <script>
+
+
+function loadSaved(){
+
+let items =
+JSON.parse(localStorage.getItem("growthContent")) || [];
+
+
+let box =
+document.getElementById("saved");
+
+
+box.innerHTML="";
+
+
+items.forEach((item,index)=>{
+
+box.innerHTML += `
+
+<div class="section">
+
+<p>${item}</p>
+
+<button class="copy"
+onclick="copyText(\`${item}\`)">
+📋 Copy
+</button>
+
+
+<button class="delete"
+onclick="deleteItem(${index})">
+🗑 Delete
+</button>
+
+</div>
+
+`;
+
+});
+
+
+}
+
+
+
+function saveContent(text){
+
+let items =
+JSON.parse(localStorage.getItem("growthContent")) || [];
+
+
+items.unshift(text);
+
+
+localStorage.setItem(
+"growthContent",
+JSON.stringify(items)
+);
+
+
+loadSaved();
+
+}
+
+
+
+function deleteItem(index){
+
+let items =
+JSON.parse(localStorage.getItem("growthContent")) || [];
+
+
+items.splice(index,1);
+
+
+localStorage.setItem(
+"growthContent",
+JSON.stringify(items)
+);
+
+
+loadSaved();
+
+}
+
 
 
 async function copyText(text){
@@ -98,7 +191,9 @@ alert("Copied!");
 
 
 
+
 async function generate(){
+
 
 let topic =
 document.getElementById("topic").value;
@@ -114,11 +209,11 @@ return;
 
 
 document.getElementById("output").innerHTML=
-"<h3>🤖 Creating...</h3>";
+"🤖 Creating content...";
 
 
-
-const response = await fetch("/api/generate",{
+const response =
+await fetch("/api/generate",{
 
 method:"POST",
 
@@ -133,14 +228,12 @@ topic
 });
 
 
-
-const data = await response.json();
-
+const data =
+await response.json();
 
 
 let content =
-data.content || "No result";
-
+data.content || "No content generated";
 
 
 document.getElementById("output").innerHTML=
@@ -149,14 +242,19 @@ document.getElementById("output").innerHTML=
 
 <div class="section">
 
-<h3>🔥 AI Growth Package</h3>
+<h3>🔥 Generated Content</h3>
 
-<p id="text">${content.replace(/\n/g,"<br>")}</p>
+<p id="result">${content.replace(/\n/g,"<br>")}</p>
 
 
 <button class="copy"
-onclick="copyText(document.getElementById('text').innerText)">
-📋 Copy Everything
+onclick="copyText(document.getElementById('result').innerText)">
+📋 Copy
+</button>
+
+
+<button onclick="saveContent(document.getElementById('result').innerText)">
+⭐ Save To Library
 </button>
 
 
@@ -167,9 +265,11 @@ onclick="copyText(document.getElementById('text').innerText)">
 }
 
 
+loadSaved();
+
+
 </script>
 
 
 </body>
-
 </html>

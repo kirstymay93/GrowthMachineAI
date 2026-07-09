@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowthMachineAI Login</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f4f6f8;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+margin:0;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:20px;
+width:340px;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+h1{
+text-align:center;
+}
+
+input,button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border-radius:10px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+input{
+border:1px solid #ccc;
+}
+
+button{
+background:#1877f2;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+opacity:.95;
+}
+
+#msg{
+margin-top:15px;
+text-align:center;
+white-space:pre-wrap;
+}
+</style>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://domqqoskzxgkjtbtewir.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvbXFxb3Nrenhna2p0YnRld2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1NDg5NzIsImV4cCI6MjA5OTEyNDk3Mn0.Yn0TuO6cpBDDhwrIn5SViRJgF_BdI6F2OF-fJ99rTns"
+);
+
+window.signup = async () => {
+
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+
+const {error}=await supabase.auth.signUp({
+email,
+password
+});
+
+document.getElementById("msg").textContent=
+error ? error.message :
+"✅ Account created. Check your email if confirmation is enabled.";
+
+};
+
+window.login = async () => {
+
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+
+const {data,error}=await supabase.auth.signInWithPassword({
+email,
+password
+});
+
+if(error){
+
+document.getElementById("msg").textContent=error.message;
+return;
+
+}
+
+document.getElementById("msg").textContent=
+"✅ Welcome " + (data.user?.email || "");
+
+window.location.href="index.html";
+
+};
+</script>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🚀 GrowthMachineAI</h1>
+
+<input
+id="email"
+type="email"
+placeholder="Email">
+
+<input
+id="password"
+type="password"
+placeholder="Password (6+ characters)">
+
+<button onclick="signup()">
+Create Account
+</button>
+
+<button onclick="login()">
+Login
+</button>
+
+<p id="msg"></p>
+
+</div>
+
+</body>
+</html>

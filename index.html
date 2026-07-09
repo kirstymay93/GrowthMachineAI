@@ -1,204 +1,177 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GrowthMachineAI</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
-
 body{
-font-family:Arial;
+font-family:Arial,sans-serif;
 background:#f4f6f8;
+margin:0;
 padding:20px;
 }
 
 .app{
-max-width:600px;
+max-width:700px;
 margin:auto;
-background:white;
-padding:25px;
+background:#fff;
+padding:24px;
 border-radius:20px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
 
-textarea,button{
+h1{
+text-align:center;
+}
 
+textarea{
 width:100%;
-padding:15px;
+height:140px;
+padding:12px;
 margin-top:10px;
 border-radius:12px;
-
+box-sizing:border-box;
 }
 
 button{
-
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:12px;
 background:#1877f2;
 color:white;
-border:0;
-
+font-size:16px;
+cursor:pointer;
 }
 
-.box{
-
+#result{
 margin-top:20px;
 background:#eee;
 padding:15px;
 border-radius:12px;
 white-space:pre-wrap;
-
 }
-
 </style>
 
-</head>
+<script type="module">
 
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-<body>
+const supabase = createClient(
+"https://domqqoskzxgkjtbtewir.supabase.co",
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvbXFxb3Nrenhna2p0YnRld2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1NDg5NzIsImV4cCI6MjA5OTEyNDk3Mn0.Yn0TuO6cpBDDhwrIn5SViRJgF_BdI6F2OF-fJ99rTns"
+);
 
+const {
+data:{session}
+}=await supabase.auth.getSession();
 
-<div class="app">
+if(!session){
+window.location.href="auth.html";
+}
 
+window.logout=async()=>{
+await supabase.auth.signOut();
+window.location.href="auth.html";
+};
 
-<h1>🚀 GrowthMachineAI</h1>
+window.generate=async()=>{
 
+const idea=document.getElementById("idea").value;
 
-<textarea id="idea"
-placeholder="Enter your idea">
-</textarea>
+document.getElementById("result").textContent="🤖 Generating...";
 
+try{
 
-<button onclick="generate()">
-🤖 Generate AI Plan
-</button>
-
-
-<button onclick="saveIdea()">
-💾 Save Result
-</button>
-
-
-<button onclick="showSaved()">
-📚 My Saved Ideas
-</button>
-
-
-<div id="result" class="box">
-Ready...
-</div>
-
-
-</div>
-
-
-
-<script>
-
-
-let latest="";
-
-
-async function generate(){
-
-
-let idea =
-document.getElementById("idea").value;
-
-
-document.getElementById("result").innerHTML =
-"🤖 Creating...";
-
-
-let response =
-await fetch("/api/generate",{
-
+const response=await fetch("/api/generate",{
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
-body:JSON.stringify({
-idea
-})
-
+body:JSON.stringify({idea})
 });
 
+const data=await response.json();
 
-let data =
-await response.json();
+window.latestResult=data.result||data.error||"No response";
 
+document.getElementById("result").textContent=window.latestResult;
 
-latest =
-data.result || data.error;
+}catch(e){
 
-
-document.getElementById("result").innerHTML =
-latest;
-
+document.getElementById("result").textContent="Error contacting AI.";
 
 }
 
+};
 
+window.saveIdea=()=>{
 
-function saveIdea(){
+if(!window.latestResult)return;
 
+const saved=JSON.parse(localStorage.getItem("savedIdeas")||"[]");
 
-if(!latest){
-
-return;
-
-}
-
-
-let saved =
-JSON.parse(
-localStorage.getItem("savedIdeas") || "[]"
-);
-
-
-saved.push(latest);
-
+saved.push(window.latestResult);
 
 localStorage.setItem(
 "savedIdeas",
 JSON.stringify(saved)
 );
 
+document.getElementById("result").textContent="✅ Saved";
 
-document.getElementById("result").innerHTML =
-"✅ Saved!";
+};
 
+window.showSaved=()=>{
 
-}
+const saved=JSON.parse(localStorage.getItem("savedIdeas")||"[]");
 
+document.getElementById("result").textContent=
+saved.length
+? saved.join("\n\n----------------\n\n")
+: "No saved ideas.";
 
-
-function showSaved(){
-
-
-let saved =
-JSON.parse(
-localStorage.getItem("savedIdeas") || "[]"
-);
-
-
-document.getElementById("result").innerHTML =
-
-saved.length ?
-
-saved.join("\n\n---\n\n") :
-
-"No saved ideas yet";
-
-
-}
-
+};
 
 </script>
 
+</head>
+
+<body>
+
+<div class="app">
+
+<h1>🚀 GrowthMachineAI</h1>
+
+<textarea
+id="idea"
+placeholder="Describe your business, niche or content idea...">
+</textarea>
+
+<button onclick="generate()">
+🤖 Generate AI Plan
+</button>
+
+<button onclick="saveIdea()">
+💾 Save Result
+</button>
+
+<button onclick="showSaved()">
+📚 My Saved Ideas
+</button>
+
+<button onclick="logout()">
+🚪 Logout
+</button>
+
+<div id="result">
+Ready.
+</div>
+
+</div>
 
 </body>
-
 </html>
